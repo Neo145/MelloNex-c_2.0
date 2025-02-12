@@ -1,0 +1,6 @@
+Team,Opponent,Total Matches,Mumbai Indians Wins,Batting First Win %,Bowling First Win %,Toss Wins,Toss Won & Match Won,Toss Won & Match Lost,Toss Lost & Match Won,Toss Lost & Match Lost,Match Dates,Match Years,Gujarat Giants Wins,Delhi Capitals Wins,Royal Challengers Bangalore Wins,UP Warriorz Wins
+Mumbai Indians,Mumbai Indians,8,,0,0,,,,,,"['2023-03-04', '2023-03-14', '2023-03-18', '2023-03-20', '2023-03-24', '2024-02-28', '2024-03-07', '2024-03-12']","[np.int32(2023), np.int32(2024)]",,,,
+Gujarat Giants,Gujarat Giants,13,,0,0,,,,,,"['2023-03-05', '2023-03-08', '2023-03-11', '2023-03-16', '2023-03-18', '2023-03-20', '2024-02-25', '2024-02-27', '2024-03-01', '2024-03-06', '2024-03-09', '2024-03-11', '2024-03-13']","[np.int32(2023), np.int32(2024)]",,,,
+Delhi Capitals,Delhi Capitals,10,,0,0,,,,,,"['2023-03-05', '2023-03-07', '2023-03-09', '2023-03-26', '2024-02-23', '2024-02-29', '2024-03-03', '2024-03-05', '2024-03-10', '2024-03-17']","[np.int32(2023), np.int32(2024)]",,,,
+Royal Challengers Bangalore,Royal Challengers Bangalore,8,,0,0,,,,,,"['2023-03-06', '2023-03-10', '2023-03-13', '2023-03-21', '2024-02-24', '2024-03-02', '2024-03-04', '2024-03-15']","[np.int32(2023), np.int32(2024)]",,,,
+UP Warriorz,UP Warriorz,5,,0,0,,,,,,"['2023-03-12', '2023-03-15', '2023-03-21', '2024-02-26', '2024-03-08']","[np.int32(2023), np.int32(2024)]",,,,
