@@ -3,8 +3,9 @@ from dash import dcc, html, dash_table
 from dash.dependencies import Input, Output, State
 import pandas as pd
 import os
+from flask import Flask
 
-from pages.wpl import generate_series_stats,generate_toss_impact, generate_venue_stats
+from pages.wpl import generate_series_stats, generate_toss_impact, generate_venue_stats
 
 # ✅ File Paths
 data_path = os.getenv("DATA_PATH", "data/wpl")  # Use environment variable for deployment
@@ -23,9 +24,11 @@ match_results = load_data("WPL_Head_to_Head_All.csv")
 toss_decision = load_data("WPL_Toss_Analysis.csv")
 venue_stats = load_data("WPL_Venue_Analysis_All.csv")
 
+# ✅ Initialize Flask Server for Deployment (Gunicorn Needs This)
+server = Flask(__name__)  
+
 # ✅ Initialize Dash App
-app = dash.Dash(__name__, suppress_callback_exceptions=True)
-server = app.server  # Expose Flask server for deployment
+app = dash.Dash(__name__, server=server, suppress_callback_exceptions=True)
 
 # ✅ Define App Layout
 app.layout = html.Div([
@@ -33,14 +36,13 @@ app.layout = html.Div([
     
     html.Button("☰ Toggle Sidebar", id="toggle-sidebar", n_clicks=0),
     html.Div(id='sidebar', style={"display": "block"}),
-    
+
     html.Div(id='page-content', style={"marginLeft": "250px", "padding": "20px"})
 ])
 
 # ✅ Sidebar Toggle Callback
 @app.callback(
-    Output('sidebar', 'style'),
-    Output('page-content', 'style'),
+    [Output('sidebar', 'style'), Output('page-content', 'style')],
     [Input('toggle-sidebar', 'n_clicks')],
     [State('sidebar', 'style'), State('page-content', 'style')]
 )
@@ -58,9 +60,11 @@ def display_page(pathname):
             html.H1("🏏 WPL 2023-2024 Analysis"),
             dcc.Dropdown(
                 id="year-dropdown",
-                options=[{'label': 'WPL 2023', 'value': '2023'},
-                         {'label': 'WPL 2024', 'value': '2024'},
-                         {'label': 'All Matches', 'value': 'overall'}],
+                options=[
+                    {'label': 'WPL 2023', 'value': '2023'},
+                    {'label': 'WPL 2024', 'value': '2024'},
+                    {'label': 'All Matches', 'value': 'overall'}
+                ],
                 value="overall",
                 clearable=False,
                 style={'width': '50%'}
@@ -81,9 +85,9 @@ def display_page(pathname):
 
 # ✅ Update Graphs Based on Year Selection
 @app.callback(
-    Output("series-stats-chart", "figure"),
-    Output("toss-impact-chart", "figure"),
-    Output("venue-stats-chart", "figure"),
+    [Output("series-stats-chart", "figure"),
+     Output("toss-impact-chart", "figure"),
+     Output("venue-stats-chart", "figure")],
     [Input("year-dropdown", "value")]
 )
 def update_graphs(year):
@@ -91,12 +95,9 @@ def update_graphs(year):
 
 # ✅ Show/Hide Data Tables for Analysis
 @app.callback(
-    Output("series-stats-table", "children"),
-    Output("series-stats-table", "style"),
-    Output("toss-stats-table", "children"),
-    Output("toss-stats-table", "style"),
-    Output("venue-stats-table", "children"),
-    Output("venue-stats-table", "style"),
+    [Output("series-stats-table", "children"), Output("series-stats-table", "style"),
+     Output("toss-stats-table", "children"), Output("toss-stats-table", "style"),
+     Output("venue-stats-table", "children"), Output("venue-stats-table", "style")],
     [Input("toggle-series-table-btn", "n_clicks"),
      Input("toggle-toss-table-btn", "n_clicks"),
      Input("toggle-venue-table-btn", "n_clicks")],
@@ -119,11 +120,12 @@ def toggle_tables(series_clicks, toss_clicks, venue_clicks, year):
         return None, {"display": "none"}
 
     return (
-        get_table(match_results, series_clicks),
-        get_table(toss_decision, toss_clicks),
-        get_table(venue_stats, venue_clicks)
+        *get_table(match_results, series_clicks),
+        *get_table(toss_decision, toss_clicks),
+        *get_table(venue_stats, venue_clicks)
     )
 
-# ✅ Run the App
+# ✅ Run the App (Fix Port Binding)
 if __name__ == '__main__':
-    app.run_server(debug=False, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+    port = int(os.environ.get("PORT", 8080))  # Ensure Render assigns the correct port
+    app.run_server(debug=False, host="0.0.0.0", port=port)
