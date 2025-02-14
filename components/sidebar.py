@@ -1,51 +1,112 @@
+import dash_bootstrap_components as dbc
 from dash import html, dcc
 
-# ✅ Sidebar Styles (Fixed)
+# ✅ **Toggle Button (Apple-Style)**
+toggle_button = html.Button(
+    "☰",
+    id="toggle-sidebar",
+    n_clicks=0,
+    style={
+        "position": "fixed",
+        "top": "10px",
+        "left": "10px",
+        "width": "50px",
+        "height": "50px",
+        "background": "#007bff",
+        "color": "white",
+        "border": "none",
+        "border-radius": "50%",
+        "font-size": "20px",
+        "cursor": "pointer",
+        "box-shadow": "0px 4px 6px rgba(0, 0, 0, 0.1)",
+        "transition": "0.3s ease-in-out",
+    },
+)
+
+# ✅ **Collapsible Cricket Menu**
+cricket_menu = html.Div(
+    [
+        html.Button(
+            "🏏 Cricket ▼",
+            id="cricket-toggle",
+            n_clicks=0,
+            style={
+                "width": "100%",
+                "background": "#f0f0f0",
+                "border": "none",
+                "padding": "10px",
+                "text-align": "left",
+                "font-size": "16px",
+                "cursor": "pointer",
+                "border-radius": "5px",
+                "transition": "0.3s ease-in-out",
+            },
+        ),
+        html.Div(
+            [
+                dbc.NavLink("🏆 Women's Premier League", href="/cricket-wpl", active="exact"),
+                dbc.NavLink("🌍 Champions Trophy (Coming Soon)", href="#", disabled=True),
+                dbc.NavLink("🔥 IPL 2025 (Coming Soon)", href="#", disabled=True),
+            ],
+            id="cricket-dropdown",
+            style={"display": "none", "padding-left": "15px"},
+        ),
+    ],
+)
+
+# ✅ **Sidebar Layout**
+sidebar = html.Div(
+    [
+        html.H2("MelloNex-C", className="display-6", style={"textAlign": "center", "color": "#007bff", "margin-bottom": "20px"}),
+        html.Hr(),
+
+        dbc.Nav(
+            [
+                dbc.NavLink("🏠 Home", href="/", active="exact"),
+                cricket_menu,
+            ],
+            vertical=True,
+            pills=True,
+        ),
+    ],
+    id="sidebar",
+    style={
+        "position": "fixed",
+        "top": 0,
+        "left": 0,
+        "width": "270px",
+        "height": "100%",
+        "padding": "20px",
+        "background-color": "#ffffff",
+        "box-shadow": "2px 0px 5px rgba(0, 0, 0, 0.1)",
+        "transition": "left 0.3s ease-in-out",
+        "overflow-y": "auto",  # Enable scrolling if needed
+    },
+)
+
+# ✅ **Sidebar Animation Styles**
 SIDEBAR_STYLE = {
     "position": "fixed",
-    "top": "0",
-    "left": "0",
-    "height": "100vh",
-    "width": "250px",
-    "backgroundColor": "#1e1e2f",  # Dark theme
-    "color": "#EEEEEE",
+    "top": 0,
+    "left": "0px",
+    "width": "270px",
+    "height": "100%",
     "padding": "20px",
-    "transition": "transform 0.3s ease-in-out",
-    "transform": "translateX(0)",
-    "boxShadow": "4px 0px 10px rgba(0, 0, 0, 0.2)",  # Soft shadow for depth
-    "borderRight": "2px solid #007bff"  # Highlighted Edge
+    "background-color": "#ffffff",
+    "box-shadow": "2px 0px 5px rgba(0, 0, 0, 0.1)",
+    "transition": "left 0.3s ease-in-out",
+    "overflow-y": "auto",
 }
 
-SIDEBAR_HIDDEN_STYLE = SIDEBAR_STYLE.copy()
-SIDEBAR_HIDDEN_STYLE["transform"] = "translateX(-100%)"
-
-# ✅ Sidebar Layout
-sidebar = html.Div([
-    html.H2("MelloNex-C", style={'textAlign': 'center', 'color': '#00bfff'}),
-    html.Hr(),
-
-    # ✅ Home Link
-    dcc.Link("🏠 Home", href='/', style={'display': 'block', 'padding': '12px', 'color': '#ffffff', 'fontSize': '16px'}),
-
-    # ✅ Cricket Section (Collapsible)
-    html.Button("🏏 Cricket ▼", id="cricket-toggle", n_clicks=0, style={
-        'background': 'none', 'border': 'none', 'color': '#ffffff',
-        'cursor': 'pointer', 'fontSize': '16px', 'width': '100%',
-        'textAlign': 'left', 'padding': '12px'
-    }),
-
-    # ✅ Collapsible Links
-    html.Div(id="cricket-dropdown", children=[
-        dcc.Link('🔹 Women\'s Premier League', href='/cricket-wpl', style={'display': 'block', 'padding': '10px', 'color': '#ffffff'}),
-        html.Div('📢 Champions Trophy - Analytics Coming Soon', style={'padding': '10px', 'color': '#ffcc00'}),
-        html.Div('📢 IPL - Analytics Coming Soon', style={'padding': '10px', 'color': '#ffcc00'}),
-    ], style={'display': 'none'}),  # Hidden by default
-], id='sidebar', style=SIDEBAR_STYLE)
-
-# ✅ Toggle Button (Always Visible)
-toggle_button = html.Button("☰", id="toggle-sidebar", n_clicks=0, style={
-    'position': 'fixed', 'top': '10px', 'left': '10px',
-    'fontSize': '24px', 'border': 'none', 'background': 'none',
-    'color': '#00bfff',  # Change color to Blue
-    'cursor': 'pointer', 'zIndex': '1000'
-})
+SIDEBAR_HIDDEN_STYLE = {
+    "position": "fixed",
+    "top": 0,
+    "left": "-270px",  # Moves Sidebar Offscreen
+    "width": "270px",
+    "height": "100%",
+    "padding": "20px",
+    "background-color": "#ffffff",
+    "box-shadow": "2px 0px 5px rgba(0, 0, 0, 0.1)",
+    "transition": "left 0.3s ease-in-out",
+    "overflow-y": "auto",
+}

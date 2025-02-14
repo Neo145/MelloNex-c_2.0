@@ -4,13 +4,14 @@ from dash.dependencies import Input, Output, State
 import pandas as pd
 import os
 import dash_bootstrap_components as dbc
-from flask import Flask  # Required for Gunicorn
+from flask import Flask  # Required for Gunicorn Deployment
 
-# ✅ Import Graph Generation Functions
+# ✅ Import Sidebar & Graph Functions
+from components.sidebar import sidebar, toggle_button, SIDEBAR_STYLE, SIDEBAR_HIDDEN_STYLE
 from pages.wpl import generate_series_stats, generate_toss_impact, generate_venue_stats
 
-# ✅ Flask Server for Gunicorn
-server = Flask(__name__)  # Gunicorn needs this
+# ✅ Flask Server for Gunicorn Deployment
+server = Flask(__name__)  
 
 # ✅ Initialize Dash App with Bootstrap
 app = dash.Dash(__name__, server=server, suppress_callback_exceptions=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -32,46 +33,28 @@ match_results = load_data("WPL_Head_to_Head_All.csv")
 toss_decision = load_data("WPL_Toss_Analysis.csv")
 venue_stats = load_data("WPL_Venue_Analysis_All.csv")
 
-# ✅ Sidebar Layout (Fix: Proper Navigation & Styling)
-sidebar = html.Div(
-    [
-        html.H2("📊 WPL Dashboard", className="display-6", style={"textAlign": "center"}),
-        html.Hr(),
-        dbc.Nav(
-            [
-                dbc.NavLink("🏏 WPL Analysis", href="/cricket-wpl", active="exact"),
-            ],
-            vertical=True,
-            pills=True,
-        ),
-    ],
-    id="sidebar",
-    style={"position": "fixed", "top": 0, "left": 0, "width": "250px", "height": "100%", "padding": "20px", "background-color": "#f8f9fa"},
-)
-
-# ✅ Main Layout (Fix: Ensure Graphs Load)
+# ✅ Define App Layout
 app.layout = html.Div([
-    dcc.Location(id="url"),  # Handles URL changes
+    dcc.Location(id="url"),  # URL Handling
 
-    # Sidebar + Toggle Button
+    # ✅ Sidebar & Toggle Button
+    toggle_button,
     sidebar,
-    html.Button("☰ Toggle Sidebar", id="toggle-sidebar", n_clicks=0, style={"position": "fixed", "top": "10px", "left": "10px"}),
 
-    # Page Content
-    html.Div(id="page-content", style={"margin-left": "270px", "padding": "20px"}),
+    # ✅ Page Content
+    html.Div(id="page-content", style={"margin-left": "280px", "padding": "20px"}),
 ])
 
 # ✅ Sidebar Toggle Callback (Fix: Ensure Sidebar Visibility)
 @app.callback(
-    Output("sidebar", "style"),
-    Output("page-content", "style"),
+    [Output("sidebar", "style"), Output("page-content", "style")],
     [Input("toggle-sidebar", "n_clicks")],
-    [State("sidebar", "style"), State("page-content", "style")]
+    [State("sidebar", "style"), State("page-content", "style")],
 )
 def toggle_sidebar(n, sidebar_style, content_style):
     if n % 2 == 1:
-        return {"display": "none"}, {"margin-left": "20px"}
-    return {"position": "fixed", "top": 0, "left": 0, "width": "250px", "height": "100%", "padding": "20px", "background-color": "#f8f9fa"}, {"margin-left": "270px"}
+        return SIDEBAR_HIDDEN_STYLE, {"margin-left": "20px"}
+    return SIDEBAR_STYLE, {"margin-left": "280px"}
 
 # ✅ Page Routing (Fix: Set Default Page)
 @app.callback(
@@ -81,7 +64,9 @@ def toggle_sidebar(n, sidebar_style, content_style):
 def display_page(pathname):
     if pathname in ["/", "/cricket-wpl"]:  
         return html.Div([
-            html.H1("🏏 WPL 2023-2024 Analysis"),
+            html.H1("🏏 WPL 2023-2024 Analysis", style={"textAlign": "center"}),
+
+            html.Label("Select Season:", style={"font-weight": "bold"}),
             dcc.Dropdown(
                 id="year-dropdown",
                 options=[
@@ -91,20 +76,23 @@ def display_page(pathname):
                 ],
                 value="overall",
                 clearable=False,
-                style={"width": "50%"}
+                style={"width": "50%", "margin-bottom": "20px"}
             ),
+
+            # ✅ Graphs
             dcc.Graph(id="series-stats-chart"),
-            html.Button("🔍 Toggle Series Data", id="toggle-series-table-btn", n_clicks=0),
+            html.Button("🔍 Toggle Series Data", id="toggle-series-table-btn", n_clicks=0, style={"margin-bottom": "10px"}),
             html.Div(id="series-stats-table", style={"display": "none"}),
 
             dcc.Graph(id="toss-impact-chart"),
-            html.Button("🔍 Toggle Toss Data", id="toggle-toss-table-btn", n_clicks=0),
+            html.Button("🔍 Toggle Toss Data", id="toggle-toss-table-btn", n_clicks=0, style={"margin-bottom": "10px"}),
             html.Div(id="toss-stats-table", style={"display": "none"}),
 
             dcc.Graph(id="venue-stats-chart"),
-            html.Button("🔍 Toggle Venue Data", id="toggle-venue-table-btn", n_clicks=0),
-            html.Div(id="venue-stats-table", style={"display": "none"})
+            html.Button("🔍 Toggle Venue Data", id="toggle-venue-table-btn", n_clicks=0, style={"margin-bottom": "10px"}),
+            html.Div(id="venue-stats-table", style={"display": "none"}),
         ])
+    
     return html.H3("404 Page Not Found", style={"textAlign": "center"})
 
 # ✅ Update Graphs Based on Year Selection (Fix: Ensure Data Loads)
