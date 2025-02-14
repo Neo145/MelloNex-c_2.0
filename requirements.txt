@@ -1,7 +1,5 @@
-
 numpy
 scikit-learn
-
 streamlit
 matplotlib
 seaborn
@@ -9,3 +7,13 @@ dash
 plotly
 pandas
 flask
+gunicorn
+werkzeug
+flask-compress
+dash-bootstrap-components
+dash-core-components
+dash-html-components
+dash-table
+requests
+retrying
+python-dotenv
