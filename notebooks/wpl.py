@@ -1,124 +1,68 @@
 import pandas as pd
 import os
 
-# ✅ Define file paths
+# Define file paths
 input_file = r"F:\MelloNex-c 2.0\data\raw\Wpl 2023-2024.csv"
-output_file = r"F:\MelloNex-c 2.0\data\processed\Wpl_Processed_Stats_Advanced.csv"
+output_folder = r"F:\MelloNex-c 2.0\data\wpl"
 
-# ✅ Load dataset
+# Create output folder if it doesn't exist
+os.makedirs(output_folder, exist_ok=True)
+
+# Load the dataset
 df = pd.read_csv(input_file)
 
-# ✅ Convert match dates to proper datetime format
-df['date'] = pd.to_datetime(df['date'], errors='coerce')
-df['year'] = df['date'].dt.year
+# Handling missing values by filling them with 0
+df['winner_runs'].fillna(0, inplace=True)
+df['winner_wickets'].fillna(0, inplace=True)
 
-# ✅ Ensure column names are clean
-df.columns = df.columns.str.strip().str.lower()
+# Splitting datasets
+df_2023 = df[df['season'] == 2023]
+df_2024 = df[df['season'] == 2024]
+df_all = df.copy()
 
-# ✅ Rename columns for consistency
-df.rename(columns={"team": "team1", "opponent": "team2"}, inplace=True)
+# Function to compute head-to-head statistics
+def head_to_head_analysis(data):
+    head_to_head = {}
 
-# ✅ Ensure Venue Column Exists
-if "venue" not in df.columns:
-    df["venue"] = "Unknown Venue"
+    for _, row in data.iterrows():
+        team1 = row['team1']
+        team2 = row['team2']
+        winner = row['winner']
 
-# ✅ Function to compute team vs team statistics
-def compute_team_vs_team_stats(df):
-    summary = []
-    teams = df["team1"].unique()
+        # Create keys for team1 vs team2 and vice versa
+        matchup1 = (team1, team2)
+        matchup2 = (team2, team1)
 
-    for team1 in teams:
-        for team2 in teams:
-            if team1 == team2:
-                continue  # Skip self-comparison
+        if matchup1 not in head_to_head and matchup2 not in head_to_head:
+            head_to_head[matchup1] = {"Total Matches": 0, team1: 0, team2: 0, "Draw": 0}
 
-            # ✅ Filter matches between the two teams
-            matches = df[((df['team1'] == team1) & (df['team2'] == team2)) |
-                         ((df['team1'] == team2) & (df['team2'] == team1))]
+        matchup_key = matchup1 if matchup1 in head_to_head else matchup2
 
-            total_matches = len(matches)
-            team1_wins = (matches['winner'] == team1).sum()
-            team2_wins = (matches['winner'] == team2).sum()
-            no_result = matches['winner'].isna().sum()
-            tied_matches = ((matches['winner'] == "Tie") | (matches['winner'] == "Draw")).sum()
+        # Update total matches count
+        head_to_head[matchup_key]["Total Matches"] += 1
 
-            # ✅ Toss Impact
-            toss_wins = (matches['toss_winner'] == team1).sum()
-            toss_won_match_won = ((matches['toss_winner'] == team1) & (matches['winner'] == team1)).sum()
-            toss_won_match_lost = ((matches['toss_winner'] == team1) & (matches['winner'] == team2)).sum()
-            toss_lost_match_won = ((matches['toss_winner'] == team2) & (matches['winner'] == team1)).sum()
-            toss_lost_match_lost = ((matches['toss_winner'] == team2) & (matches['winner'] == team2)).sum()
+        # Update win/loss/draw count
+        if winner == team1:
+            head_to_head[matchup_key][team1] += 1
+        elif winner == team2:
+            head_to_head[matchup_key][team2] += 1
+        else:
+            head_to_head[matchup_key]["Draw"] += 1
 
-            # ✅ Toss Decision Analysis
-            chose_to_bat = ((matches['toss_winner'] == team1) & (matches['toss_decision'] == "bat")).sum()
-            chose_to_bowl = ((matches['toss_winner'] == team1) & (matches['toss_decision'] == "bowl")).sum()
+    # Convert dictionary to DataFrame
+    head_to_head_df = pd.DataFrame.from_dict(head_to_head, orient="index").reset_index()
+    head_to_head_df.rename(columns={"index": "Matchup"}, inplace=True)
 
-            # ✅ Batting First vs Second Wins
-            batting_first_wins = ((matches['toss_decision'] == "bat") & (matches['winner'] == team1)).sum()
-            batting_second_wins = ((matches['toss_decision'] == "bowl") & (matches['winner'] == team1)).sum()
+    return head_to_head_df
 
-            # ✅ Win Margins (Runs & Wickets)
-            win_by_runs = matches.loc[matches['winner'] == team1, 'winner_runs'].sum()
-            win_by_wickets = matches.loc[matches['winner'] == team1, 'winner_wickets'].sum()
+# Compute team vs team analysis for 2023, 2024, and all matches
+h2h_2023 = head_to_head_analysis(df_2023)
+h2h_2024 = head_to_head_analysis(df_2024)
+h2h_all = head_to_head_analysis(df_all)
 
-            # ✅ Last 5 Matches (Sorted by Most Recent)
-            last_5_matches = matches[['date', 'team1', 'team2', 'winner', 'winner_runs', 'winner_wickets']].sort_values(by='date', ascending=False).head(5)
-            last_5_matches['date'] = last_5_matches['date'].dt.strftime('%Y-%m-%d')
-            last_5_matches_str = last_5_matches.to_json(orient="records")
+# Save the results
+h2h_2023.to_csv(os.path.join(output_folder, "WPL_Head_to_Head_2023.csv"), index=False)
+h2h_2024.to_csv(os.path.join(output_folder, "WPL_Head_to_Head_2024.csv"), index=False)
+h2h_all.to_csv(os.path.join(output_folder, "WPL_Head_to_Head_All.csv"), index=False)
 
-            # ✅ Compute Recent Form (Last 5 Match Results)
-            def get_recent_form(matches, team):
-                last_5 = matches.sort_values(by="date", ascending=False).head(5)
-                results = []
-                for _, match in last_5.iterrows():
-                    if pd.isna(match["winner"]):
-                        results.append("NR")  # No Result
-                    elif match["winner"] == team:
-                        results.append("W")  # Win
-                    else:
-                        results.append("L")  # Loss
-                return "".join(results)
-
-            team1_recent_form = get_recent_form(matches, team1)
-            team2_recent_form = get_recent_form(matches, team2)
-
-            # ✅ Append results
-            summary.append({
-                "team1": team1,
-                "team2": team2,
-                "total matches": total_matches,
-                "wins": team1_wins,
-                "losses": team2_wins,
-                "no result": no_result,
-                "tied matches": tied_matches,
-                "toss_wins": toss_wins,
-                "toss_winner": team1 if toss_wins > 0 else team2,  # ✅ Add toss winner
-                "winner": team1 if team1_wins > team2_wins else team2,  # ✅ Add match winner
-                "toss won & match won": toss_won_match_won,
-                "toss won & match lost": toss_won_match_lost,
-                "toss lost & match won": toss_lost_match_won,
-                "toss lost & match lost": toss_lost_match_lost,
-                "toss_decision": "bat" if chose_to_bat > chose_to_bowl else "bowl",  # ✅ Add toss decision
-                "chose to bat": chose_to_bat,
-                "chose to bowl": chose_to_bowl,
-                "batting first wins": batting_first_wins,
-                "batting second wins": batting_second_wins,
-                "win by runs": win_by_runs,  # ✅ Add win by runs
-                "win by wickets": win_by_wickets,  # ✅ Add win by wickets
-                "winner_runs": matches[matches["winner"] == team1]["winner_runs"].sum(),  # ✅ Fix winner runs
-                "winner_wickets": matches[matches["winner"] == team1]["winner_wickets"].sum(),  # ✅ Fix winner wickets
-                "last 5 matches": last_5_matches_str,
-                "team1 recent form": team1_recent_form,  # ✅ New Feature
-                "team2 recent form": team2_recent_form   # ✅ New Feature
-            })
-
-    return pd.DataFrame(summary)
-
-# ✅ Process the data
-processed_df = compute_team_vs_team_stats(df)
-
-# ✅ Save the processed data
-os.makedirs(os.path.dirname(output_file), exist_ok=True)
-processed_df.to_csv(output_file, index=False)
-
-print(f"✅ Processed Data Saved at: {output_file}")
+print("Head-to-head analysis completed. Results saved in:", output_folder)

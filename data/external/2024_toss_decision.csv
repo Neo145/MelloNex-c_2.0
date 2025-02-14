@@ -1,0 +1,23 @@
+Match No,Match,Toss Won By,Toss Decision,Match Won By,Toss Decision Success/Fail
+1,Delhi Capitals vs Mumbai Indians,Mumbai Indians,field,Mumbai Indians,Success
+2,Royal Challengers Bangalore vs UP Warriorz,UP Warriorz,field,Royal Challengers Bangalore,Fail
+3,Gujarat Giants vs Mumbai Indians,Mumbai Indians,field,Mumbai Indians,Success
+4,UP Warriorz vs Delhi Capitals,Delhi Capitals,field,Delhi Capitals,Success
+5,Gujarat Giants vs Royal Challengers Bangalore,Royal Challengers Bangalore,field,Royal Challengers Bangalore,Success
+6,Mumbai Indians vs UP Warriorz,UP Warriorz,field,UP Warriorz,Success
+7,Delhi Capitals vs Royal Challengers Bangalore,Royal Challengers Bangalore,field,Delhi Capitals,Fail
+8,Gujarat Giants vs UP Warriorz,UP Warriorz,field,UP Warriorz,Success
+9,Royal Challengers Bangalore vs Mumbai Indians,Mumbai Indians,field,Mumbai Indians,Success
+10,Delhi Capitals vs Gujarat Giants,Gujarat Giants,field,Delhi Capitals,Fail
+11,Royal Challengers Bangalore vs UP Warriorz,UP Warriorz,field,Royal Challengers Bangalore,Fail
+12,Delhi Capitals vs Mumbai Indians,Mumbai Indians,field,Delhi Capitals,Fail
+13,Gujarat Giants vs Royal Challengers Bangalore,Gujarat Giants,bat,Gujarat Giants,Success
+14,Mumbai Indians vs UP Warriorz,Mumbai Indians,bat,Mumbai Indians,Success
+15,UP Warriorz vs Delhi Capitals,UP Warriorz,bat,UP Warriorz,Success
+16,Gujarat Giants vs Mumbai Indians,Gujarat Giants,bat,Mumbai Indians,Fail
+17,Delhi Capitals vs Royal Challengers Bangalore,Delhi Capitals,bat,Delhi Capitals,Success
+18,Gujarat Giants vs UP Warriorz,Gujarat Giants,bat,Gujarat Giants,Success
+19,Mumbai Indians vs Royal Challengers Bangalore,Royal Challengers Bangalore,field,Royal Challengers Bangalore,Success
+20,Gujarat Giants vs Delhi Capitals,Gujarat Giants,bat,Delhi Capitals,Fail
+Eliminator,Royal Challengers Bangalore vs Mumbai Indians,Royal Challengers Bangalore,bat,Royal Challengers Bangalore,Success
+Final,Delhi Capitals vs Royal Challengers Bangalore,Delhi Capitals,bat,Royal Challengers Bangalore,Fail

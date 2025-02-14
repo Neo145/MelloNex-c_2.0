@@ -1,0 +1,23 @@
+season,team1,team2,date,match_number,venue,city,toss_winner,toss_decision,player_of_match,umpire1,umpire2,reserve_umpire,match_referee,winner,winner_runs,winner_wickets
+2024,Delhi Capitals,Mumbai Indians,2024/02/23,1,M Chinnaswamy Stadium,Bengaluru,Mumbai Indians,field,H Kaur,A Bengeri,VG Rathi,M Krishnadas,GS Lakshmi,Mumbai Indians,0.0,4.0
+2024,Royal Challengers Bangalore,UP Warriorz,2024/02/24,2,M Chinnaswamy Stadium,Bengaluru,UP Warriorz,field,S Asha,Abhijit Bhattacharya,N Janani,Mohamad Rafi,RB Kalita,Royal Challengers Bangalore,2.0,0.0
+2024,Gujarat Giants,Mumbai Indians,2024/02/25,3,M Chinnaswamy Stadium,Bengaluru,Mumbai Indians,field,AC Kerr,Gayathri Venugopal,P Jayapal,A Bengeri,AV Narvekar,Mumbai Indians,0.0,5.0
+2024,UP Warriorz,Delhi Capitals,2024/02/26,4,M Chinnaswamy Stadium,Bengaluru,Delhi Capitals,field,M Kapp,M Krishnadas,PG Pathak,Abhijit Bhattacharya,VR Nagre,Delhi Capitals,0.0,9.0
+2024,Gujarat Giants,Royal Challengers Bangalore,2024/02/27,5,M Chinnaswamy Stadium,Bengaluru,Royal Challengers Bangalore,field,Renuka Singh,Mohamad Rafi,P Joshi,P Jayapal,M Mangla,Royal Challengers Bangalore,0.0,8.0
+2024,Mumbai Indians,UP Warriorz,2024/02/28,6,M Chinnaswamy Stadium,Bengaluru,UP Warriorz,field,KP Navgire,A Bengeri,VG Rathi,PG Pathak,GS Lakshmi,UP Warriorz,0.0,7.0
+2024,Delhi Capitals,Royal Challengers Bangalore,2024/02/29,7,M Chinnaswamy Stadium,Bengaluru,Royal Challengers Bangalore,field,M Kapp,Abhijit Bhattacharya,N Janani,P Joshi,RB Kalita,Delhi Capitals,25.0,0.0
+2024,Gujarat Giants,UP Warriorz,2024/03/01,8,M Chinnaswamy Stadium,Bengaluru,UP Warriorz,field,GM Harris,Gayathri Venugopal,P Jayapal,VG Rathi,AV Narvekar,UP Warriorz,0.0,6.0
+2024,Royal Challengers Bangalore,Mumbai Indians,2024/03/02,9,M Chinnaswamy Stadium,Bengaluru,Mumbai Indians,field,AC Kerr,M Krishnadas,PG Pathak,N Janani,VR Nagre,Mumbai Indians,0.0,7.0
+2024,Delhi Capitals,Gujarat Giants,2024/03/03,10,M Chinnaswamy Stadium,Bengaluru,Gujarat Giants,field,JL Jonassen,Mohamad Rafi,P Joshi,Gayathri Venugopal,M Mangla,Delhi Capitals,25.0,0.0
+2024,Royal Challengers Bangalore,UP Warriorz,2024/03/04,11,M Chinnaswamy Stadium,Bengaluru,UP Warriorz,field,S Mandhana,A Bengeri,VG Rathi,M Krishnadas,GS Lakshmi,Royal Challengers Bangalore,23.0,0.0
+2024,Delhi Capitals,Mumbai Indians,2024/03/05,12,Arun Jaitley Stadium,Delhi,Mumbai Indians,field,JI Rodrigues,Abhijit Bhattacharya,N Janani,Mohamad Rafi,RB Kalita,Delhi Capitals,29.0,0.0
+2024,Gujarat Giants,Royal Challengers Bangalore,2024/03/06,13,Arun Jaitley Stadium,Delhi,Gujarat Giants,bat,BL Mooney,Gayathri Venugopal,P Jayapal,A Bengeri,AV Narvekar,Gujarat Giants,19.0,0.0
+2024,Mumbai Indians,UP Warriorz,2024/03/07,14,Arun Jaitley Stadium,Delhi,Mumbai Indians,bat,NR Sciver-Brunt,M Krishnadas,PG Pathak,Abhijit Bhattacharya,VR Nagre,Mumbai Indians,42.0,0.0
+2024,UP Warriorz,Delhi Capitals,2024/03/08,15,Arun Jaitley Stadium,Delhi,UP Warriorz,bat,DB Sharma,Mohamad Rafi,P Joshi,P Jayapal,M Mangla,UP Warriorz,1.0,0.0
+2024,Gujarat Giants,Mumbai Indians,2024/03/09,16,Arun Jaitley Stadium,Delhi,Gujarat Giants,bat,H Kaur,A Bengeri,VG Rathi,PG Pathak,GS Lakshmi,Mumbai Indians,0.0,7.0
+2024,Delhi Capitals,Royal Challengers Bangalore,2024/03/10,17,Arun Jaitley Stadium,Delhi,Delhi Capitals,bat,JI Rodrigues,Abhijit Bhattacharya,N Janani,P Joshi,RB Kalita,Delhi Capitals,1.0,0.0
+2024,Gujarat Giants,UP Warriorz,2024/03/11,18,Arun Jaitley Stadium,Delhi,Gujarat Giants,bat,SM Shakil,Gayathri Venugopal,P Jayapal,VG Rathi,AV Narvekar,Gujarat Giants,8.0,0.0
+2024,Mumbai Indians,Royal Challengers Bangalore,2024/03/12,19,Arun Jaitley Stadium,Delhi,Royal Challengers Bangalore,field,EA Perry,M Krishnadas,PG Pathak,N Janani,VR Nagre,Royal Challengers Bangalore,0.0,7.0
+2024,Gujarat Giants,Delhi Capitals,2024/03/13,20,Arun Jaitley Stadium,Delhi,Gujarat Giants,bat,Shafali Verma,Mohamad Rafi,P Joshi,Gayathri Venugopal,M Mangla,Delhi Capitals,0.0,7.0
+2024,Royal Challengers Bangalore,Mumbai Indians,2024/03/15,Eliminator,Arun Jaitley Stadium,Delhi,Royal Challengers Bangalore,bat,EA Perry,Gayathri Venugopal,P Joshi,Abhijit Bhattacharya,VR Nagre,Royal Challengers Bangalore,5.0,0.0
+2024,Delhi Capitals,Royal Challengers Bangalore,2024/03/17,Final,Arun Jaitley Stadium,Delhi,Delhi Capitals,bat,S Molineux,Abhijit Bhattacharya,Gayathri Venugopal,PG Pathak,GS Lakshmi,Royal Challengers Bangalore,0.0,8.0

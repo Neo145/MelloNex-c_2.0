@@ -1,0 +1,28 @@
+season,team1,team2,Total Matches,Team1 Wins,Team2 Wins,Draws/No Result,Team1 Win %,Team2 Win %
+2023,Delhi Capitals,Mumbai Indians,2.0,0.0,2.0,0.0,0.0,100.0
+2023,Delhi Capitals,Royal Challengers Bangalore,1.0,1.0,0.0,0.0,100.0,0.0
+2023,Delhi Capitals,UP Warriorz,1.0,1.0,0.0,0.0,100.0,0.0
+2023,Gujarat Giants,Delhi Capitals,2.0,1.0,1.0,0.0,50.0,50.0
+2023,Gujarat Giants,Royal Challengers Bangalore,2.0,1.0,1.0,0.0,50.0,50.0
+2023,Gujarat Giants,UP Warriorz,2.0,0.0,2.0,0.0,0.0,100.0
+2023,Mumbai Indians,Delhi Capitals,1.0,0.0,1.0,0.0,0.0,100.0
+2023,Mumbai Indians,Gujarat Giants,2.0,2.0,0.0,0.0,100.0,0.0
+2023,Mumbai Indians,UP Warriorz,2.0,1.0,1.0,0.0,50.0,50.0
+2023,Royal Challengers Bangalore,Delhi Capitals,1.0,0.0,1.0,0.0,0.0,100.0
+2023,Royal Challengers Bangalore,Mumbai Indians,2.0,0.0,2.0,0.0,0.0,100.0
+2023,Royal Challengers Bangalore,UP Warriorz,1.0,0.0,1.0,0.0,0.0,100.0
+2023,UP Warriorz,Delhi Capitals,1.0,0.0,1.0,0.0,0.0,100.0
+2023,UP Warriorz,Mumbai Indians,1.0,0.0,1.0,0.0,0.0,100.0
+2023,UP Warriorz,Royal Challengers Bangalore,1.0,0.0,1.0,0.0,0.0,100.0
+2024,Delhi Capitals,Gujarat Giants,1.0,1.0,0.0,0.0,100.0,0.0
+2024,Delhi Capitals,Mumbai Indians,2.0,1.0,1.0,0.0,50.0,50.0
+2024,Delhi Capitals,Royal Challengers Bangalore,3.0,2.0,1.0,0.0,66.67,33.33
+2024,Gujarat Giants,Delhi Capitals,1.0,0.0,1.0,0.0,0.0,100.0
+2024,Gujarat Giants,Mumbai Indians,2.0,0.0,2.0,0.0,0.0,100.0
+2024,Gujarat Giants,Royal Challengers Bangalore,2.0,1.0,1.0,0.0,50.0,50.0
+2024,Gujarat Giants,UP Warriorz,2.0,1.0,1.0,0.0,50.0,50.0
+2024,Mumbai Indians,Royal Challengers Bangalore,1.0,0.0,1.0,0.0,0.0,100.0
+2024,Mumbai Indians,UP Warriorz,2.0,1.0,1.0,0.0,50.0,50.0
+2024,Royal Challengers Bangalore,Mumbai Indians,2.0,1.0,1.0,0.0,50.0,50.0
+2024,Royal Challengers Bangalore,UP Warriorz,2.0,2.0,0.0,0.0,100.0,0.0
+2024,UP Warriorz,Delhi Capitals,2.0,1.0,1.0,0.0,50.0,50.0
