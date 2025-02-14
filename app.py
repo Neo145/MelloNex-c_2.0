@@ -33,8 +33,8 @@ venue_stats = load_data("WPL_Venue_Analysis_All.csv")
 
 # ✅ Define App Layout
 app.layout = html.Div([
-    dcc.Location(id='url', refresh=False),
-    
+    dcc.Location(id='url', refresh=False),  # Handles URL changes
+
     html.Button("☰ Toggle Sidebar", id="toggle-sidebar", n_clicks=0),
     html.Div(id='sidebar', style={"display": "block"}),
 
@@ -51,13 +51,13 @@ app.layout = html.Div([
 def toggle_sidebar(n, sidebar_style, content_style):
     return ({"display": "none"}, {"marginLeft": "20px"}) if n % 2 == 1 else ({"display": "block"}, {"marginLeft": "250px"})
 
-# ✅ Page Routing Callback
+# ✅ Page Routing Callback (Fix: Set Default Page to /cricket-wpl)
 @app.callback(
     Output('page-content', 'children'),
     [Input('url', 'pathname')]
 )
 def display_page(pathname):
-    if pathname == '/cricket-wpl':
+    if pathname in ['/', '/cricket-wpl']:  # 🛠 Fix: Load cricket-wpl by default
         return html.Div([
             html.H1("🏏 WPL 2023-2024 Analysis"),
             dcc.Dropdown(
