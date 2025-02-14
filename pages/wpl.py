@@ -6,7 +6,7 @@ import os
 import plotly.express as px
 
 # ✅ File Paths
-data_path = r"F:\MelloNex-c 2.0\data\wpl"
+data_path = os.getenv("DATA_PATH", "data/wpl")  # Allows flexibility for deployment
 
 # ✅ Load Data with Error Handling
 def load_data(filename):
@@ -65,14 +65,10 @@ def update_graphs(selected_tab, year):
     elif selected_tab == "venue-stats":
         return dcc.Graph(id="venue-stats-chart", figure=generate_venue_stats(year))
     elif selected_tab == "h2h-analysis":
-        return dash_table.DataTable(
-            data=match_results.to_dict('records'),
-            columns=[{"name": col, "id": col} for col in match_results.columns],
-            style_table={'overflowX': 'auto'}
-        )
+        return generate_head_to_head_table(year)
     return html.H3("⚠️ Error: Tab Not Found")
 
-# ✅ Generate Series Statistics Graph (Fix: Ensure Dynamic Update)
+# ✅ Generate Series Statistics Graph (Fix: Ensures Proper Dynamic Update)
 def generate_series_stats(year):
     df = match_results.copy()
     
@@ -81,7 +77,7 @@ def generate_series_stats(year):
 
     df["Matchup"] = df["level_0"] + " vs " + df["level_1"]
 
-    # Filter for selected season
+    # ✅ Filter for selected season
     if "season" in df.columns and year != "overall":
         df = df[df["season"] == int(year)]
     
@@ -93,12 +89,12 @@ def generate_series_stats(year):
         color="Total Matches",
         orientation="h"
     )
-    fig.update_layout(yaxis={'categoryorder': 'total ascending'})
+    fig.update_layout(yaxis={'categoryorder': 'total ascending'}, height=600)
     fig.update_traces(text=df["Total Matches"], textposition='inside')
 
     return fig
 
-# ✅ Generate Toss Impact Graph (Fix: Ensure Proper Filtering)
+# ✅ Generate Toss Impact Graph (Fix: Ensures Proper Filtering)
 def generate_toss_impact(year):
     df = toss_decision.copy()
 
@@ -109,9 +105,9 @@ def generate_toss_impact(year):
         df = df[df["season"] == int(year)]
 
     fig = px.pie(
-        df, names="Toss Wins", values="Toss Success Rate (%)",
+        df, names="Team", values="Toss Success Rate (%)",
         title=f"Toss Success Rate by Team ({year})",
-        labels={"Toss Wins": "Teams", "Toss Success Rate (%)": "Win Percentage"},
+        labels={"Team": "Teams", "Toss Success Rate (%)": "Win Percentage"},
         hole=0.3,
         color_discrete_sequence=px.colors.qualitative.Set2
     )
@@ -119,7 +115,7 @@ def generate_toss_impact(year):
 
     return fig
 
-# ✅ Generate Venue Statistics Graph (Fix: Ensure Sorting and Labels)
+# ✅ Generate Venue Statistics Graph (Fix: Ensures Sorting and Labels)
 def generate_venue_stats(year):
     df = venue_stats.copy()
 
@@ -140,3 +136,22 @@ def generate_venue_stats(year):
     fig.update_layout(xaxis_tickangle=-45)
 
     return fig
+
+# ✅ Generate Head-to-Head Analysis Table
+def generate_head_to_head_table(year):
+    df = match_results.copy()
+
+    if df.empty:
+        return html.Div("⚠️ No Data Available")
+
+    # ✅ Filter by selected year
+    if "season" in df.columns and year != "overall":
+        df = df[df["season"] == int(year)]
+
+    # ✅ Data Table
+    return dash_table.DataTable(
+        data=df.to_dict('records'),
+        columns=[{"name": col, "id": col} for col in df.columns],
+        style_table={'overflowX': 'auto'}
+    )
+
