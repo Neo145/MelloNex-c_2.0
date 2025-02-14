@@ -4,7 +4,7 @@ from dash.dependencies import Input, Output, State
 import pandas as pd
 import os
 
-from pages.wpl import generate_series_stats
+from pages.wpl import generate_series_stats,generate_toss_impact, generate_venue_stats
 
 # ✅ File Paths
 data_path = os.getenv("DATA_PATH", "data/wpl")  # Use environment variable for deployment
