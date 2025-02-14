@@ -3,12 +3,19 @@ from dash import dcc, html, dash_table
 from dash.dependencies import Input, Output, State
 import pandas as pd
 import os
-from flask import Flask
+from flask import Flask  # Required for Gunicorn
 
+# ✅ Import Graph Generation Functions
 from pages.wpl import generate_series_stats, generate_toss_impact, generate_venue_stats
 
-# ✅ File Paths
-data_path = os.getenv("DATA_PATH", "data/wpl")  # Use environment variable for deployment
+# ✅ Flask Server for Gunicorn
+server = Flask(__name__)  # Gunicorn needs this
+
+# ✅ Initialize Dash App
+app = dash.Dash(__name__, server=server, suppress_callback_exceptions=True)
+
+# ✅ File Paths (for Data Loading)
+data_path = os.getenv("DATA_PATH", "data/wpl")  # Use env variable for flexible deployment
 
 # ✅ Load Data with Error Handling
 def load_data(filename):
@@ -24,12 +31,6 @@ match_results = load_data("WPL_Head_to_Head_All.csv")
 toss_decision = load_data("WPL_Toss_Analysis.csv")
 venue_stats = load_data("WPL_Venue_Analysis_All.csv")
 
-# ✅ Initialize Flask Server for Deployment (Gunicorn Needs This)
-server = Flask(__name__)  
-
-# ✅ Initialize Dash App
-app = dash.Dash(__name__, server=server, suppress_callback_exceptions=True)
-
 # ✅ Define App Layout
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
@@ -42,7 +43,8 @@ app.layout = html.Div([
 
 # ✅ Sidebar Toggle Callback
 @app.callback(
-    [Output('sidebar', 'style'), Output('page-content', 'style')],
+    Output('sidebar', 'style'),
+    Output('page-content', 'style'),
     [Input('toggle-sidebar', 'n_clicks')],
     [State('sidebar', 'style'), State('page-content', 'style')]
 )
@@ -95,9 +97,12 @@ def update_graphs(year):
 
 # ✅ Show/Hide Data Tables for Analysis
 @app.callback(
-    [Output("series-stats-table", "children"), Output("series-stats-table", "style"),
-     Output("toss-stats-table", "children"), Output("toss-stats-table", "style"),
-     Output("venue-stats-table", "children"), Output("venue-stats-table", "style")],
+    [Output("series-stats-table", "children"),
+     Output("series-stats-table", "style"),
+     Output("toss-stats-table", "children"),
+     Output("toss-stats-table", "style"),
+     Output("venue-stats-table", "children"),
+     Output("venue-stats-table", "style")],
     [Input("toggle-series-table-btn", "n_clicks"),
      Input("toggle-toss-table-btn", "n_clicks"),
      Input("toggle-venue-table-btn", "n_clicks")],
@@ -120,9 +125,9 @@ def toggle_tables(series_clicks, toss_clicks, venue_clicks, year):
         return None, {"display": "none"}
 
     return (
-        *get_table(match_results, series_clicks),
-        *get_table(toss_decision, toss_clicks),
-        *get_table(venue_stats, venue_clicks)
+        get_table(match_results, series_clicks),
+        get_table(toss_decision, toss_clicks),
+        get_table(venue_stats, venue_clicks)
     )
 
 # ✅ Run the App (Fix Port Binding)
